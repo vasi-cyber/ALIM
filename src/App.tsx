@@ -7,11 +7,6 @@ import {
   Linkedin, Mail, Phone, ExternalLink
 } from 'lucide-react';
 
-// Import Assets
-import logo from './assets/logo.png';
-import faran from './assets/faran.png';
-import safdar from './assets/safdar.png';
-
 // --- Types ---
 type Page = 'home' | 'about' | 'services' | 'experience' | 'team' | 'contact' | 'privacy' | 'terms';
 
@@ -41,7 +36,7 @@ const Navbar = ({ currentPage, setPage }: { currentPage: Page, setPage: (p: Page
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <button onClick={() => setPage('home')} className="flex items-center gap-3 group">
           <img 
-            src={logo} 
+            src="./logo.png" 
             alt="AliM Partners Logo" 
             className="h-10 w-auto brightness-0 invert" 
           />
@@ -116,7 +111,7 @@ const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
           <div className="space-y-6">
             <button onClick={() => setPage('home')} className="flex items-center gap-3 group">
               <img 
-                src={logo} 
+                src="./logo.png" 
                 alt="AliM Partners Logo" 
                 className="h-10 w-auto brightness-0 invert opacity-80" 
               />
@@ -838,14 +833,14 @@ const Team = () => {
               { 
                 name: 'M. Faran Ali', 
                 role: 'Founder and Principal', 
-                image: faran,
+                image: './faran.png',
                 bio: 'Strategic advisor operating at the intersection of capital markets and execution, with experience across investor relations, capital formation, and CEO-level initiatives. He has supported $80M+ in financing activity, led multiple Reg A and crowdfunding campaigns, and built a retail investor base exceeding 15,000 participants, advising public & private companies across cleantech, mobility, CPG, and advanced manufacturing.',
                 edu: 'Economics and International Business - King\'s College London | Management and International Business - University of Toronto'
               },
               { 
                 name: 'Syed Safdar', 
                 role: 'Strategic Advisor', 
-                image: safdar,
+                image: './safdar.png',
                 bio: 'London-based management consultant with 8+ years of experience at EY and PwC, specializing in financial services. He has advised multilateral organizations, bulge-bracket banks, insurers, and asset managers across the UK, Middle East, and South Asia, with expertise spanning enterprise risk, internal audit, digital transformation, and investment advisory.',
                 edu: 'CFA, ACA | Masters in Accounting & Finance - London School of Economics and Political Science'
               },
