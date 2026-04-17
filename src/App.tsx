@@ -15,10 +15,11 @@ import {
   Linkedin, Mail, Phone, ExternalLink
 } from 'lucide-react';
 
-// Import Assets with Vite hashing for cache busting
-import logo from './assets/logo.png';
-import faran from './assets/faran.png';
-import safdar from './assets/safdar.png';
+// Import Assets
+// We use root-relative paths for reliability in production
+const logo = '/logo.png';
+const faran = '/faran.png';
+const safdar = '/safdar.png';
 
 // --- Types ---
 type Page = 'home' | 'about' | 'services' | 'experience' | 'team' | 'contact' | 'privacy' | 'terms';
@@ -64,8 +65,8 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-3 group">
           <img 
             src={logo} 
-            alt="AliM Partners Logo" 
-            className="h-10 w-auto brightness-0 invert" 
+            alt="AliM Partners" 
+            className="h-10 w-auto" 
           />
         </Link>
 
@@ -138,8 +139,8 @@ const Footer = () => {
             <Link to="/" className="flex items-center gap-3 group">
               <img 
                 src={logo} 
-                alt="AliM Partners Logo" 
-                className="h-10 w-auto brightness-0 invert opacity-80" 
+                alt="AliM Partners" 
+                className="h-10 w-auto opacity-80" 
               />
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
@@ -886,12 +887,7 @@ const Team = () => {
                     <img 
                       src={tm.image} 
                       alt={tm.name} 
-                      referrerPolicy="no-referrer"
                       className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                      }}
                     />
                   ) : null}
                   <span className={`${tm.image ? 'hidden' : ''} text-navy font-serif text-3xl font-bold`}>
