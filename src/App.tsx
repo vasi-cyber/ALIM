@@ -15,11 +15,12 @@ import {
   Linkedin, Mail, Phone, ExternalLink
 } from 'lucide-react';
 
-// Import Assets
-// We use root-relative paths for reliability in production
-const logo = '/logo.png';
-const faran = '/faran.png';
-const safdar = '/safdar.png';
+// Image Assets - Using public folder paths to prevent Base64 inlining
+// This ensures version queries (?v=...) work correctly for cache busting
+const logoPath = '/logo.png';
+const faranPath = '/faran.png';
+const safdarPath = '/safdar.png';
+const APP_VERSION = '1.1.0'; // Incremented to force refresh after re-upload
 
 // --- Types ---
 type Page = 'home' | 'about' | 'services' | 'experience' | 'team' | 'contact' | 'privacy' | 'terms';
@@ -64,9 +65,9 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
           <img 
-            src={logo} 
+            src={`${logoPath}?v=${APP_VERSION}`} 
             alt="AliM Partners" 
-            className="h-10 w-auto" 
+            className="h-10 w-auto brightness-0 invert" 
           />
         </Link>
 
@@ -138,9 +139,9 @@ const Footer = () => {
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-3 group">
               <img 
-                src={logo} 
+                src={`${logoPath}?v=${APP_VERSION}`} 
                 alt="AliM Partners" 
-                className="h-10 w-auto opacity-80" 
+                className="h-10 w-auto brightness-0 invert opacity-80" 
               />
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
@@ -863,20 +864,21 @@ const Team = () => {
               { 
                 name: 'M. Faran Ali', 
                 role: 'Founder and Principal', 
-                image: faran,
+                image: faranPath,
                 bio: 'Strategic advisor operating at the intersection of capital markets and execution, with experience across investor relations, capital formation, and CEO-level initiatives. He has supported $80M+ in financing activity, led multiple Reg A and crowdfunding campaigns, and built a retail investor base exceeding 15,000 participants, advising public & private companies across cleantech, mobility, CPG, and advanced manufacturing.',
                 edu: 'Economics and International Business - King\'s College London | Management and International Business - University of Toronto'
               },
               { 
                 name: 'Syed Safdar', 
                 role: 'Strategic Advisor', 
-                image: safdar,
+                image: safdarPath,
                 bio: 'London-based management consultant with 8+ years of experience at EY and PwC, specializing in financial services. He has advised multilateral organizations, bulge-bracket banks, insurers, and asset managers across the UK, Middle East, and South Asia, with expertise spanning enterprise risk, internal audit, digital transformation, and investment advisory.',
                 edu: 'CFA, ACA | Masters in Accounting & Finance - London School of Economics and Political Science'
               },
               { 
                 name: 'Abdullah Shakir Vasi', 
                 role: 'Senior Analyst', 
+                image: null,
                 bio: 'Strategic consultant and operations specialist focused on AI-driven workflow automation, financial feasibility, and growth strategy. He has supported enterprise optimization through advanced data pipelines and AI integration, and contributed to acquisition analysis including synergy modeling in the cleantech sector, delivering scalable operational frameworks across fast-paced industries.',
                 edu: 'Bocconi University - International Economics and Management | Rotman Commerce - University of Toronto'
               }
@@ -885,7 +887,7 @@ const Team = () => {
                 <div className="w-32 h-32 rounded-full bg-slate-100 mx-auto mb-8 border-4 border-gold flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform relative">
                   {tm.image ? (
                     <img 
-                      src={tm.image} 
+                      src={`${tm.image}?v=${APP_VERSION}`} 
                       alt={tm.name} 
                       className="w-full h-full object-cover"
                     />
