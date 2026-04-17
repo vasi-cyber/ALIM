@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
+  BrowserRouter as Router, 
+  Routes, 
+  Route, 
+  Link, 
+  useLocation, 
+  useNavigate 
+} from 'react-router-dom';
+import { 
   Menu, X, ArrowRight, CheckCircle2, TrendingUp, 
   Users, Globe, Zap, ShieldCheck, BarChart3, 
   MessageSquare, Scale, Briefcase, Cpu, Calendar,
@@ -17,9 +25,21 @@ type Page = 'home' | 'about' | 'services' | 'experience' | 'team' | 'contact' | 
 
 // --- Components ---
 
-const Navbar = ({ currentPage, setPage }: { currentPage: Page, setPage: (p: Page) => void }) => {
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [pathname]);
+  
+  return null;
+};
+
+const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -27,42 +47,41 @@ const Navbar = ({ currentPage, setPage }: { currentPage: Page, setPage: (p: Page
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks: { id: Page; label: string }[] = [
-    { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'services', label: 'Services' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'team', label: 'Team' },
-    { id: 'contact', label: 'Contact' },
+  const navLinks: { path: string; label: string; id: Page }[] = [
+    { path: '/', label: 'Home', id: 'home' },
+    { path: '/about', label: 'About', id: 'about' },
+    { path: '/services', label: 'Services', id: 'services' },
+    { path: '/experience', label: 'Experience', id: 'experience' },
+    { path: '/team', label: 'Team', id: 'team' },
+    { path: '/contact', label: 'Contact', id: 'contact' },
   ];
+
+  const currentPath = location.pathname;
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-navy-dark/95 backdrop-blur-md py-3 shadow-lg' : 'bg-navy-dark py-[14px]'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <button onClick={() => setPage('home')} className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center gap-3 group">
           <img 
             src={logo} 
             alt="AliM Partners Logo" 
             className="h-10 w-auto brightness-0 invert" 
           />
-          <div className="hidden w-10 h-10 bg-gradient-to-br from-navy-mid to-navy border border-gold flex items-center justify-center text-gold font-serif font-bold text-xl rounded-sm group-hover:bg-gold group-hover:text-navy transition-colors">
-            A
-          </div>
-        </button>
+        </Link>
 
         {/* Desktop Links */}
         <div className="hidden lg:flex items-center gap-8">
           {navLinks.map(link => (
-            <button
-              key={link.id}
-              onClick={() => setPage(link.id)}
-              className={`text-[11px] uppercase tracking-[0.15em] font-semibold transition-colors ${currentPage === link.id ? 'text-gold' : 'text-white/70 hover:text-gold'}`}
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`text-[11px] uppercase tracking-[0.15em] font-semibold transition-colors ${currentPath === link.path ? 'text-gold' : 'text-white/70 hover:text-gold'}`}
             >
               {link.label}
-            </button>
+            </Link>
           ))}
           <button 
-            onClick={() => setPage('contact')}
+            onClick={() => navigate('/contact')}
             className="bg-gold hover:bg-gold-light text-navy-dark px-6 py-2.5 rounded-sm text-xs font-bold uppercase tracking-wider transition-all transform hover:-translate-y-0.5"
           >
             Schedule a Call
@@ -86,16 +105,17 @@ const Navbar = ({ currentPage, setPage }: { currentPage: Page, setPage: (p: Page
           >
             <div className="flex flex-col p-6 gap-4">
               {navLinks.map(link => (
-                <button
-                  key={link.id}
-                  onClick={() => { setPage(link.id); setMobileMenuOpen(false); }}
-                  className={`text-left text-sm uppercase tracking-widest font-medium py-2 ${currentPage === link.id ? 'text-gold' : 'text-white/80'}`}
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`text-left text-sm uppercase tracking-widest font-medium py-2 ${currentPath === link.path ? 'text-gold' : 'text-white/80'}`}
                 >
                   {link.label}
-                </button>
+                </Link>
               ))}
               <button 
-                onClick={() => { setPage('contact'); setMobileMenuOpen(false); }}
+                onClick={() => { navigate('/contact'); setMobileMenuOpen(false); }}
                 className="bg-gold text-navy-dark px-6 py-3 rounded-sm text-sm font-bold uppercase tracking-wider mt-2"
               >
                 Schedule a Call
@@ -108,20 +128,20 @@ const Navbar = ({ currentPage, setPage }: { currentPage: Page, setPage: (p: Page
   );
 };
 
-const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
+const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className="bg-navy-dark text-white/60 pt-20 pb-10 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
           <div className="space-y-6">
-            <button onClick={() => setPage('home')} className="flex items-center gap-3 group">
+            <Link to="/" className="flex items-center gap-3 group">
               <img 
                 src={logo} 
                 alt="AliM Partners Logo" 
                 className="h-10 w-auto brightness-0 invert opacity-80" 
               />
-              <div className="hidden w-8 h-8 border border-gold flex items-center justify-center text-gold font-serif font-bold text-lg">A</div>
-            </button>
+            </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               Strategic advisory at the intersection of capital, narrative, and execution.
             </p>
@@ -139,19 +159,19 @@ const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
             <div className="space-y-4">
               <h4 className="text-white text-[10px] uppercase tracking-[0.2em] font-bold">Navigate</h4>
               <ul className="space-y-2 text-sm">
-                <li><button onClick={() => setPage('home')} className="hover:text-gold transition-colors">Home</button></li>
-                <li><button onClick={() => setPage('about')} className="hover:text-gold transition-colors">About</button></li>
-                <li><button onClick={() => setPage('services')} className="hover:text-gold transition-colors">Services</button></li>
-                <li><button onClick={() => setPage('experience')} className="hover:text-gold transition-colors">Experience</button></li>
+                <li><Link to="/" className="hover:text-gold transition-colors">Home</Link></li>
+                <li><Link to="/about" className="hover:text-gold transition-colors">About</Link></li>
+                <li><Link to="/services" className="hover:text-gold transition-colors">Services</Link></li>
+                <li><Link to="/experience" className="hover:text-gold transition-colors">Experience</Link></li>
               </ul>
             </div>
             <div className="space-y-4">
               <h4 className="text-white text-[10px] uppercase tracking-[0.2em] font-bold">Services</h4>
               <ul className="space-y-2 text-sm">
-                <li><button onClick={() => setPage('services')} className="hover:text-gold transition-colors">Capital Markets</button></li>
-                <li><button onClick={() => setPage('services')} className="hover:text-gold transition-colors">Crowdfunding</button></li>
-                <li><button onClick={() => setPage('services')} className="hover:text-gold transition-colors">Investor Relations</button></li>
-                <li><button onClick={() => setPage('services')} className="hover:text-gold transition-colors">CEO Advisory</button></li>
+                <li><Link to="/services" className="hover:text-gold transition-colors">Capital Markets</Link></li>
+                <li><Link to="/services" className="hover:text-gold transition-colors">Crowdfunding</Link></li>
+                <li><Link to="/services" className="hover:text-gold transition-colors">Investor Relations</Link></li>
+                <li><Link to="/services" className="hover:text-gold transition-colors">CEO Advisory</Link></li>
               </ul>
             </div>
           </div>
@@ -168,7 +188,7 @@ const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
                 <span>alimpartners.com</span>
               </div>
               <button 
-                onClick={() => setPage('contact')}
+                onClick={() => navigate('/contact')}
                 className="inline-flex items-center gap-2 text-gold font-semibold hover:underline mt-2"
               >
                 <Calendar size={16} />
@@ -188,18 +208,18 @@ const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-[0.1em]">
             <span>© 2026 AliM Partners. All rights reserved.</span>
             <div className="flex gap-6">
-              <button 
-                onClick={() => setPage('terms')} 
+              <Link 
+                to="/terms" 
                 className="hover:text-gold uppercase tracking-widest"
               >
                 Terms of Service
-              </button>
-              <button 
-                onClick={() => setPage('privacy')} 
+              </Link>
+              <Link 
+                to="/privacy" 
                 className="hover:text-gold uppercase tracking-widest"
               >
                 Privacy Policy
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -210,7 +230,8 @@ const Footer = ({ setPage }: { setPage: (p: Page) => void }) => {
 
 // --- Page Sections ---
 
-const Home = ({ setPage }: { setPage: (p: Page) => void }) => {
+const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className="animate-in fade-in duration-700">
       {/* Badges Bar - Ticker Style */}
@@ -284,13 +305,13 @@ const Home = ({ setPage }: { setPage: (p: Page) => void }) => {
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <button 
-              onClick={() => setPage('contact')}
+              onClick={() => navigate('/contact')}
               className="w-full sm:w-auto bg-gold hover:bg-gold-light text-navy-dark px-10 py-4 rounded-sm font-bold uppercase tracking-widest text-sm transition-all transform hover:-translate-y-1 shadow-xl shadow-gold/10"
             >
               Schedule a Consultation
             </button>
             <button 
-              onClick={() => setPage('services')}
+              onClick={() => navigate('/services')}
               className="w-full sm:w-auto border border-white/30 hover:border-gold text-white hover:text-gold px-10 py-4 rounded-sm font-bold uppercase tracking-widest text-sm transition-all"
             >
               View Services
@@ -383,7 +404,7 @@ const Home = ({ setPage }: { setPage: (p: Page) => void }) => {
               </p>
             </div>
             <button 
-              onClick={() => setPage('contact')}
+              onClick={() => navigate('/contact')}
               className="whitespace-nowrap bg-gold hover:bg-gold-light text-navy-dark px-10 py-4 rounded-sm font-bold uppercase tracking-widest text-sm transition-all shadow-lg"
             >
               Let's Talk
@@ -414,7 +435,7 @@ const Home = ({ setPage }: { setPage: (p: Page) => void }) => {
                 key={i}
                 whileHover={{ y: -5 }}
                 onClick={() => {
-                  setPage('services');
+                  navigate('/services');
                   setTimeout(() => {
                     const el = document.getElementById(`service-${svc.id}`);
                     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -446,7 +467,7 @@ const Home = ({ setPage }: { setPage: (p: Page) => void }) => {
             Between leadership, capital markets, and execution — that's where we operate. Let's talk about what you need to move faster.
           </p>
           <button 
-            onClick={() => setPage('contact')}
+            onClick={() => navigate('/contact')}
             className="bg-gold hover:bg-gold-light text-navy-dark px-12 py-5 rounded-sm font-bold uppercase tracking-widest text-sm transition-all transform hover:scale-105 shadow-2xl shadow-gold/20"
           >
             Book an Intro Call
@@ -457,7 +478,8 @@ const Home = ({ setPage }: { setPage: (p: Page) => void }) => {
   );
 };
 
-const About = ({ setPage }: { setPage: (p: Page) => void }) => {
+const About = () => {
+  const navigate = useNavigate();
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
       <section className="bg-navy-dark py-24">
@@ -521,7 +543,7 @@ const About = ({ setPage }: { setPage: (p: Page) => void }) => {
           <h2 className="text-white text-4xl font-serif mb-8">Ready to move faster?</h2>
           <p className="text-white/60 mb-10 text-lg">Let's discuss where AliM Partners can step in and drive execution for your company.</p>
           <button 
-            onClick={() => setPage('contact')}
+            onClick={() => navigate('/contact')}
             className="bg-gold hover:bg-gold-light text-navy-dark px-12 py-4 rounded-sm font-bold uppercase tracking-widest text-sm transition-all"
           >
             Book an Intro Call
@@ -532,7 +554,8 @@ const About = ({ setPage }: { setPage: (p: Page) => void }) => {
   );
 };
 
-const Services = ({ setPage }: { setPage: (p: Page) => void }) => {
+const Services = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState(0);
 
   const services = [
@@ -722,7 +745,7 @@ const Services = ({ setPage }: { setPage: (p: Page) => void }) => {
           <h2 className="text-white text-4xl font-serif mb-8">Not sure where to start?</h2>
           <p className="text-white/60 mb-10 text-lg">Book a no-commitment intro call. We'll assess your situation and tell you honestly where we can add the most value.</p>
           <button 
-            onClick={() => setPage('contact')}
+            onClick={() => navigate('/contact')}
             className="bg-gold hover:bg-gold-light text-navy-dark px-12 py-4 rounded-sm font-bold uppercase tracking-widest text-sm transition-all"
           >
             Schedule a Free Consultation
@@ -733,7 +756,8 @@ const Services = ({ setPage }: { setPage: (p: Page) => void }) => {
   );
 };
 
-const Experience = ({ setPage }: { setPage: (p: Page) => void }) => {
+const Experience = () => {
+  const navigate = useNavigate();
   return (
     <div className="animate-in fade-in duration-700">
       <section className="bg-navy-dark py-24">
@@ -806,7 +830,7 @@ const Experience = ({ setPage }: { setPage: (p: Page) => void }) => {
           <h2 className="text-white text-4xl font-serif mb-8">Let's add your company to the track record.</h2>
           <p className="text-white/60 mb-10 text-lg">Book an intro call and let's talk about what execution looks like for your business.</p>
           <button 
-            onClick={() => setPage('contact')}
+            onClick={() => navigate('/contact')}
             className="bg-gold hover:bg-gold-light text-navy-dark px-12 py-4 rounded-sm font-bold uppercase tracking-widest text-sm transition-all"
           >
             Book an Intro Call
@@ -1099,28 +1123,27 @@ const TermsOfService = () => {
 // --- Main App ---
 
 export default function App() {
-  const [page, setPage] = useState<Page>('home');
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [page]);
-
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar currentPage={page} setPage={setPage} />
-      
-      <main className="flex-grow pt-[68px]">
-        {page === 'home' && <Home setPage={setPage} />}
-        {page === 'about' && <About setPage={setPage} />}
-        {page === 'services' && <Services setPage={setPage} />}
-        {page === 'experience' && <Experience setPage={setPage} />}
-        {page === 'team' && <Team />}
-        {page === 'contact' && <Contact />}
-        {page === 'privacy' && <PrivacyPolicy />}
-        {page === 'terms' && <TermsOfService />}
-      </main>
+    <Router>
+      <ScrollToTop />
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        
+        <main className="flex-grow pt-[68px]">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/experience" element={<Experience />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<TermsOfService />} />
+          </Routes>
+        </main>
 
-      <Footer setPage={setPage} />
-    </div>
+        <Footer />
+      </div>
+    </Router>
   );
 }
