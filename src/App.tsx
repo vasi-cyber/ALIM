@@ -151,7 +151,7 @@ const Footer = () => {
               <a href="https://ca.linkedin.com/in/mfaranali" target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors">
                 <Linkedin size={20} />
               </a>
-              <a href="mailto:info@alimpartners.com" className="hover:text-gold transition-colors">
+              <a href="mailto:faran@alimpartners.com" className="hover:text-gold transition-colors">
                 <Mail size={20} />
               </a>
             </div>
@@ -183,7 +183,7 @@ const Footer = () => {
             <div className="space-y-3 text-sm">
               <div className="flex items-center gap-3">
                 <Mail size={16} className="text-gold" />
-                <span>info@alimpartners.com</span>
+                <span>faran@alimpartners.com</span>
               </div>
               <div className="flex items-center gap-3">
                 <Globe size={16} className="text-gold" />
@@ -426,12 +426,12 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { id: '01', title: 'Capital Markets Strategy', desc: 'Investor base growth, retail awareness, NOBO list development, and capital structure advisory.', color: 'blue' },
-              { id: '02', title: 'Crowdfunding Quarterbacking', desc: 'A–Z execution: deal setup, legal, compliance, investor messaging, and closing support.', color: 'green' },
-              { id: '03', title: 'Investor Relations & PR', desc: 'Earnings calls, investor decks, and media placement at Forbes, Fox & Friends, and Benzinga.', color: 'purple' },
-              { id: '04', title: 'Regulatory Coordination', desc: 'SEC filing coordination, AGM support, disclosure management, and equity plan administration.', color: 'amber' },
-              { id: '05', title: 'CEO Advisory', desc: 'Senior strategic support for initiatives that don\'t fit one department — but still need to get done.', color: 'teal' },
-              { id: '06', title: 'AI & Growth Systems', desc: 'SOPs, AI-assisted workflows, CRM architecture, and investor response systems.', color: 'sky' },
+              { id: '01', label: 'CAPITAL', title: 'Capital Markets Strategy & Investor Growth', desc: 'Investor base growth, retail awareness, NOBO list development, and capital structure advisory.', color: 'blue' },
+              { id: '02', label: 'CROWDFUNDING', title: 'Reg A / Reg D / Crowdfunding Deal Quarterbacking', desc: 'A–Z execution: deal setup, legal, compliance, investor messaging, and closing support.', color: 'green' },
+              { id: '03', label: 'IR & PR', title: 'Investor Relations & Strategic Communications', desc: 'Earnings calls, investor decks, and media placement at Forbes, Fox & Friends, and Benzinga.', color: 'purple' },
+              { id: '04', label: 'COMPLIANCE', title: 'Public Company Readiness & Regulatory Coordination', desc: 'SEC filing coordination, AGM support, disclosure management, and equity plan administration.', color: 'amber' },
+              { id: '05', label: 'CEO', title: 'CEO Advisory & Special Projects', desc: 'Senior strategic support for initiatives that don\'t fit one department — but still need to get done.', color: 'teal' },
+              { id: '06', label: 'SYSTEMS', title: 'Growth Systems, AI & Executive Infrastructure', desc: 'SOPs, AI-assisted workflows, CRM architecture, and investor response systems.', color: 'sky' },
             ].map((svc, i) => (
               <motion.div 
                 key={i}
@@ -445,7 +445,7 @@ const Home = () => {
                 }}
                 className="bg-white p-8 rounded-sm shadow-sm border-t-4 border-gold/20 hover:border-gold transition-all cursor-pointer group"
               >
-                <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">{svc.id} — {svc.title.split(' ')[0]}</span>
+                <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-4">{svc.id} — {svc.label}</span>
                 <h3 className="text-navy font-serif text-xl mb-4 group-hover:text-gold transition-colors">{svc.title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed mb-6">{svc.desc}</p>
                 <div className="flex items-center gap-2 text-gold font-bold text-[10px] uppercase tracking-widest group-hover:gap-4 transition-all">
@@ -852,7 +852,7 @@ const Team = () => {
           <h1 className="text-white text-5xl md:text-6xl font-serif mb-8 max-w-3xl leading-tight">The people behind AliM Partners.</h1>
           <div className="w-20 h-1 bg-gold mb-10" />
           <p className="text-white/70 text-xl max-w-3xl leading-relaxed">
-            Senior operators with real-world public company experience — not theoretical advisors. We show up, we execute, and we stay until the job is done.
+            Modern operators with real-world public company experience — not theoretical advisors. We show up, we execute, and we stay until the job is done.
           </p>
         </div>
       </section>
@@ -1060,7 +1060,7 @@ const PrivacyPolicy = () => {
               <h2 className="text-navy text-2xl font-serif mb-4 uppercase tracking-widest">6. Contact Us</h2>
               <p className="mb-4">If you have any questions about this Privacy Policy or how your data is handled, please reach out to us:</p>
               <div className="font-medium text-navy">
-                <p>Email: info@alimpartners.com</p>
+                <p>Email: faran@alimpartners.com</p>
                 <p>Address: 792 Eyer Drive, Pickering, Ontario, L1W 3C2, Canada</p>
               </div>
             </div>
